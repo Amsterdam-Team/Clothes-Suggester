@@ -1,4 +1,3 @@
 package org.example.logic.usecase
 
-class SuggestClotheUseCase {
-}
+class SuggestClotheUseCase {}
