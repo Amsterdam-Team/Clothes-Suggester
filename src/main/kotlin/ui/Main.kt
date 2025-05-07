@@ -1,4 +1,4 @@
-package org.example.ui
+package ui
 
 import di.onStartApplication
 
