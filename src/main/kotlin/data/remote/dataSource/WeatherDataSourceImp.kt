@@ -1,10 +1,10 @@
 package data.remote.dataSource
 
 import data.remote.response.WeatherResponse
+import data.remote.utils.getClassByResponse
+import data.remote.utils.safeApiCall
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.json.Json
 
 class WeatherDataSourceImp(
@@ -15,13 +15,12 @@ class WeatherDataSourceImp(
 
     override suspend fun getWeatherByLocation(latitude: Float, longitude: Float): WeatherResponse {
         val response =
-            client.get("$baseUrl?latitude=$latitude&longitude=$longitude&current_weather=true")
+            safeApiCall {
+                client.get("$baseUrl?latitude=$latitude&longitude=$longitude&current_weather=true")
+            }
 
-        return getClassByResponse<WeatherResponse>(response)
+        return getClassByResponse<WeatherResponse>(response = response, json = json)
     }
 
-    private suspend inline fun <reified T> getClassByResponse(response: HttpResponse): T {
-        return json.decodeFromString<T>(response.bodyAsText())
-    }
 
 }
