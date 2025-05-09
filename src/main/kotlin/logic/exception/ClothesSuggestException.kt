@@ -4,6 +4,7 @@ package logic.exception
 sealed class ClothesSuggestException : Exception() {
     sealed class ValidationException : ClothesSuggestException() {
         data object InvalidTimeFormat : ValidationException()
+        data object InvalidCityName :ValidationException()
     }
 
     sealed class DataSourceException : ClothesSuggestException() {

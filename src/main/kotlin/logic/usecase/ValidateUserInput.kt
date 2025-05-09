@@ -1,5 +1,6 @@
 package logic.usecase
 
+import logic.exception.ClothesSuggestException.ValidationException.InvalidCityName
 import logic.exception.ClothesSuggestException.DataSourceException.EmptyDataException
 import logic.exception.ClothesSuggestException.ValidationException.InvalidTimeFormat
 
@@ -10,4 +11,8 @@ class ValidateUserInput {
         if (number !in 0..23) throw InvalidTimeFormat
         return true
     }
+
+    fun isValidCityName(cityName:String):Boolean =
+        if (cityName.isBlank() || !cityName.matches(Regex("^[a-zA-Z\\s]+$"))) throw InvalidCityName else true
+
 }
