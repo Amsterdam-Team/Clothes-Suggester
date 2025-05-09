@@ -20,7 +20,7 @@ fun String.printAsAFailState() {
 fun getErrorMessageByThrowable(throwable: Throwable): String {
 
     return when (throwable) {
-        is InvalidTimeFormat -> "You need admin privileges to perform this action."
+        is InvalidTimeFormat -> "Please enter time in hours from 0 to 23 only"
 
         is EmptyDataException -> "You must enter some data, this field cannot be empty"
 
