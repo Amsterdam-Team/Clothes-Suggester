@@ -11,13 +11,25 @@ class SuggestClothesUIController(
 ) : BaseUIController {
     override fun execute() {
         consoleIO.println("Please Enter the start hour")
-        consoleIO.readFromUser()
+        val startHour = consoleIO.readFromUser()
         consoleIO.println("Please Enter the end hour")
-        consoleIO.readFromUser()
-
+        val endHour = consoleIO.readFromUser()
+        consoleIO.println("Enter city name or leave empty to use your current location:")
+        val cityName = consoleIO.readFromUser().takeIf { it.isNotBlank() }
         tryToExecute(
-            action = {},
-            onSuccess = {}
+            action = {
+                suggestClotheUseCase.suggestClothes(startHour,endHour,cityName)
+            },
+            onSuccess = {
+                suggestion ->
+                consoleIO.println("Suggested clothing items for this time range are:")
+                suggestion.suggestion.forEach { item ->
+                    consoleIO.println("- $item")
+                }
+            },
+            onError = { throwable ->
+                consoleIO.println("An error occurred while fetching suggestions: ${throwable.message}")
+            }
         )
     }
 }

@@ -2,16 +2,32 @@ package logic.usecase
 
 import data.remote.response.DayWeather
 import kotlinx.datetime.LocalDateTime
+import logic.entities.ClothingCategory
+import logic.exception.ClothesSuggestException
+import logic.repository.IClothingSuggestionRepository
 import logic.entities.Location
 import logic.repository.ILocationRepository
 import logic.repository.IWeatherRepository
 import kotlin.math.round
+import logic.exception.ClothesSuggestException.DataSourceException.EmptyDataException
 
 class SuggestClotheUseCase(
     private val weatherRepository: IWeatherRepository,
     private val locationRepository: ILocationRepository,
-    private val validateUserInput: ValidateUserInput
-) {
+    private val validateUserInput: ValidateUserInput,
+    private val clothingSuggestionRepository: IClothingSuggestionRepository,
+    ) {
+    suspend fun suggestClothes(
+        startHourInput: String,
+        endHourInput: String,
+        cityName: String? = null
+    ): ClothingCategory {
+        val averageWeather = getWeatherAtSpecificPeriod(startHourInput, endHourInput, cityName)
+        val avgTemp = averageWeather[TEMPERATURE] ?: throw EmptyDataException
+        return clothingSuggestionRepository.getClothingSuggestionsByTemperature(avgTemp.toFloat())
+    }
+
+
     private suspend fun getWeatherAtSpecificPeriod(
         startHourInput: String,
         endHourInput: String,
