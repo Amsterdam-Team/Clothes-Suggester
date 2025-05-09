@@ -1,13 +1,12 @@
 package data.remote.utils
 
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.bodyAsText
+import io.ktor.client.statement.*
 import kotlinx.serialization.json.Json
 import logic.exception.ClothesSuggestException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-inline fun safeApiCall(apiCall: () -> HttpResponse, ): HttpResponse {
+inline fun safeApiCall(apiCall: () -> HttpResponse): HttpResponse {
     return try {
         apiCall()
     } catch (e: UnknownHostException) {
