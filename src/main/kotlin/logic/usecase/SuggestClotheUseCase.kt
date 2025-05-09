@@ -3,7 +3,6 @@ package logic.usecase
 import data.remote.response.DayWeather
 import kotlinx.datetime.LocalDateTime
 import logic.entities.ClothingCategory
-import logic.exception.ClothesSuggestException
 import logic.repository.IClothingSuggestionRepository
 import logic.entities.Location
 import logic.exception.ClothesSuggestException.ValidationException.InvalidCityName
@@ -11,6 +10,7 @@ import logic.repository.ILocationRepository
 import logic.repository.IWeatherRepository
 import kotlin.math.round
 import logic.exception.ClothesSuggestException.DataSourceException.EmptyDataException
+import java.util.*
 
 class SuggestClotheUseCase(
     private val weatherRepository: IWeatherRepository,
@@ -29,7 +29,7 @@ class SuggestClotheUseCase(
     }
 
 
-    private suspend fun getWeatherAtSpecificPeriod(
+     suspend fun getWeatherAtSpecificPeriod(
         startHourInput: String,
         endHourInput: String,
         cityName: String?
@@ -87,7 +87,7 @@ class SuggestClotheUseCase(
     private suspend fun getLocationByCityName(cityName: String):Location {
         if (!validateUserInput.isValidCityName(cityName))
             throw InvalidCityName
-        return locationRepository.getLocationByCityName(cityName)
+        return locationRepository.getLocationByCityName(cityName.lowercase(Locale.getDefault()))
 
 
     }

@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class LocationByCityResponse(
     @SerialName("boundingbox")
-    val boundingbox: List<String?>?,
+    val boundingBox: List<String?>?,
     @SerialName("class")
     val classX: String?,
     @SerialName("display_name")
@@ -15,11 +15,11 @@ data class LocationByCityResponse(
     @SerialName("importance")
     val importance: Double?,
     @SerialName("lat")
-    val lat: String?,
+    val latitude: String?,
     @SerialName("licence")
     val licence: String?,
     @SerialName("lon")
-    val lon: String?,
+    val longitude: String?,
     @SerialName("osm_id")
     val osmId: String?,
     @SerialName("osm_type")
@@ -29,4 +29,4 @@ data class LocationByCityResponse(
     @SerialName("type")
     val type: String?,
 
-)
+    )

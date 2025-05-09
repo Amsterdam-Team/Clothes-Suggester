@@ -6,11 +6,6 @@ import logic.exception.ClothesSuggestException.DataSourceException.EmptyDataExce
 import logic.exception.ClothesSuggestException.NetworkException.*
 import logic.exception.ClothesSuggestException.ValidationException.InvalidTimeFormat
 
-fun String.printAsASuccessState() {
-    val green = "\u001B[32m"
-    val reset = "\u001B[0m"
-    println("$green$this$reset")
-}
 
 fun String.printAsAFailState() {
     val red = "\u001b[31m"
