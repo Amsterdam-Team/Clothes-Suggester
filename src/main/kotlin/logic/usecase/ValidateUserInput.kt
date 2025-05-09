@@ -1,6 +1,5 @@
 package logic.usecase
 
-import logic.exception.ClothesSuggestException.ValidationException.InvalidCityName
 import logic.exception.ClothesSuggestException.DataSourceException.EmptyDataException
 import logic.exception.ClothesSuggestException.ValidationException.InvalidTimeFormat
 

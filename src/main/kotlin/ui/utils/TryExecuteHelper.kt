@@ -1,6 +1,7 @@
 package ui.utils
 
 import kotlinx.coroutines.*
+import ui.utils.DisplayUtils.printError
 
 fun <T> tryToExecute(
     action: suspend () -> T,
@@ -9,7 +10,7 @@ fun <T> tryToExecute(
     dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
     val clothesSuggesterErrorHandler = CoroutineExceptionHandler { _, throwable ->
-        getErrorMessageByThrowable(throwable).printAsAFailState()
+        printError(getErrorMessageByThrowable(throwable))
         onError(throwable)
     }
 

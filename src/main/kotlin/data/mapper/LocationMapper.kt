@@ -6,8 +6,8 @@ import logic.entities.Location
 
 fun LocationByCityResponse.toModel():Location{
     return Location(
-        longitude = (this.lon?:"0.0").toDouble(),
-        latitude = (this.lat?:"0.0").toDouble(),
+        longitude = (this.longitude?:"0.0").toDouble(),
+        latitude = (this.latitude?:"0.0").toDouble(),
         cityName = this.displayName?:""
     )
 }

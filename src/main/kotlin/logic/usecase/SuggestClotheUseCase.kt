@@ -3,7 +3,6 @@ package logic.usecase
 import data.remote.response.DayWeather
 import kotlinx.datetime.LocalDateTime
 import logic.entities.ClothingCategory
-import logic.exception.ClothesSuggestException
 import logic.repository.IClothingSuggestionRepository
 import logic.entities.Location
 import logic.exception.ClothesSuggestException.ValidationException.InvalidCityName
@@ -30,7 +29,7 @@ class SuggestClotheUseCase(
     }
 
 
-    private suspend fun getWeatherAtSpecificPeriod(
+     suspend fun getWeatherAtSpecificPeriod(
         startHourInput: String,
         endHourInput: String,
         cityName: String?
