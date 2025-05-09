@@ -12,7 +12,7 @@ class ValidateUserInput {
         return true
     }
 
-    fun isValidCityName(cityName:String):Boolean =
-        if (cityName.isBlank() || !cityName.matches(Regex("^[a-zA-Z\\s]+$"))) throw InvalidCityName else true
+    fun isValidCityName(cityName:String) =
+        (cityName.isNotBlank() && cityName.matches(Regex("^[a-zA-Z\\s]+$")))
 
 }

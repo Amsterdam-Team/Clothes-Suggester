@@ -6,6 +6,7 @@ import logic.entities.ClothingCategory
 import logic.exception.ClothesSuggestException
 import logic.repository.IClothingSuggestionRepository
 import logic.entities.Location
+import logic.exception.ClothesSuggestException.ValidationException.InvalidCityName
 import logic.repository.ILocationRepository
 import logic.repository.IWeatherRepository
 import kotlin.math.round
@@ -84,7 +85,8 @@ class SuggestClotheUseCase(
     private suspend fun getLocationByIpAddress() = locationRepository.getCurrentLocationByIPAddress()
 
     private suspend fun getLocationByCityName(cityName: String):Location {
-        validateUserInput.isValidCityName(cityName)
+        if (!validateUserInput.isValidCityName(cityName))
+            throw InvalidCityName
         return locationRepository.getLocationByCityName(cityName)
 
 
