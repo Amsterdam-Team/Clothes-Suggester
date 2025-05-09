@@ -1,11 +1,8 @@
 package ui.utils
 
 import logic.exception.ClothesSuggestException
-import logic.exception.ClothesSuggestException.NetworkException.NoInternetException
-import logic.exception.ClothesSuggestException.NetworkException.TimeoutException
-import logic.exception.ClothesSuggestException.NetworkException.ServerException
-import logic.exception.ClothesSuggestException.NetworkException.UnknownNetworkException
 import logic.exception.ClothesSuggestException.DataSourceException.EmptyDataException
+import logic.exception.ClothesSuggestException.NetworkException.*
 import logic.exception.ClothesSuggestException.ValidationException.InvalidTimeFormat
 
 fun String.printAsASuccessState() {

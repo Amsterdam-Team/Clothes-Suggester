@@ -1,4 +1,4 @@
-package org.example.ui.controllers
+package ui.controllers
 
 class SuggestClotheUIController {
 }

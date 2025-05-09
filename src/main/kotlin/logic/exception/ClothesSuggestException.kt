@@ -10,10 +10,10 @@ sealed class ClothesSuggestException : Exception() {
         data object EmptyDataException : DataSourceException()
     }
 
-    sealed class NetworkException: ClothesSuggestException(){
-         data object NoInternetException: NetworkException()
-        data object TimeoutException: NetworkException()
-        data object ServerException: NetworkException()
-        data object UnknownNetworkException: NetworkException()
+    sealed class NetworkException : ClothesSuggestException() {
+        data object NoInternetException : NetworkException()
+        data object TimeoutException : NetworkException()
+        data object ServerException : NetworkException()
+        data object UnknownNetworkException : NetworkException()
     }
 }
