@@ -1,3 +1,3 @@
 package logic.entities
 
-data class Location(val latitude: Float, val longitude: Float)
+data class Location(val latitude: String, val longitude: String, val cityName:String)

@@ -10,4 +10,8 @@ class SuggestClotheUseCase(
     private val locationRepository: ILocationRepository
 ) {
 
+
+    private suspend fun getLocationByIpAddress() = locationRepository.getCurrentLocationByIPAddress()
+    private suspend fun getLocationByCityName(cityName:String) = locationRepository.getLocationByCityName(cityName)
+
 }
