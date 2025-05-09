@@ -5,6 +5,7 @@ import kotlinx.datetime.LocalDateTime
 import logic.entities.ClothingCategory
 import logic.exception.ClothesSuggestException
 import logic.repository.IClothingSuggestionRepository
+import logic.entities.Location
 import logic.repository.ILocationRepository
 import logic.repository.IWeatherRepository
 import kotlin.math.round
@@ -81,6 +82,13 @@ class SuggestClotheUseCase(
 
 
     private suspend fun getLocationByIpAddress() = locationRepository.getCurrentLocationByIPAddress()
-    private suspend fun getLocationByCityName(cityName: String) = locationRepository.getLocationByCityName(cityName)
+
+    private suspend fun getLocationByCityName(cityName: String):Location {
+        validateUserInput.isValidCityName(cityName)
+        return locationRepository.getLocationByCityName(cityName)
+
+
+    }
+
 
 }
