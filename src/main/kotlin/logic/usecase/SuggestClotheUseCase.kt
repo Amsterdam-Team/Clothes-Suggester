@@ -1,3 +1,13 @@
-package org.example.logic.usecase
+package logic.usecase
 
-class SuggestClotheUseCase {}
+import data.remote.response.DayWeather
+import logic.entities.Location
+import logic.repository.ILocationRepository
+import logic.repository.IWeatherRepository
+
+class SuggestClotheUseCase(
+    private val weatherRepository: IWeatherRepository,
+    private val locationRepository: ILocationRepository
+) {
+
+}

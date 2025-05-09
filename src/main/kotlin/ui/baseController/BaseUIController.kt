@@ -1,4 +1,4 @@
-package org.example.ui.baseController
+package ui.baseController
 
 interface BaseUIController {
     fun execute()

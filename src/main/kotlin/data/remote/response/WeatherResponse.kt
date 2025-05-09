@@ -5,22 +5,22 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WeatherResponse(
-    @SerialName("current_weather")
-    val currentWeather: CurrentWeather? = null,
-    @SerialName("current_weather_units")
-    val currentWeatherUnits: CurrentWeatherUnits? = null,
     @SerialName("elevation")
-    val elevation: Double? = null,
+    val elevation: Double?,
     @SerialName("generationtime_ms")
-    val generationTimeMs: Double? = null,
+    val generationtimeMs: Double?,
+    @SerialName("hourly")
+    val dayWeather: DayWeather?,
+    @SerialName("hourly_units")
+    val hourlyUnits: HourlyUnits?,
     @SerialName("latitude")
-    val latitude: Double? = null,
+    val latitude: Double?,
     @SerialName("longitude")
-    val longitude: Double? = null,
+    val longitude: Double?,
     @SerialName("timezone")
-    val timezone: String? = null,
+    val timezone: String?,
     @SerialName("timezone_abbreviation")
-    val timezoneAbbreviation: String? = null,
+    val timezoneAbbreviation: String?,
     @SerialName("utc_offset_seconds")
-    val utcOffsetSeconds: Int? = null
+    val utcOffsetSeconds: Int?
 )
