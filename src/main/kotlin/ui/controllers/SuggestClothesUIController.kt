@@ -1,8 +1,12 @@
 package ui.controllers
 
+import logic.entities.ClothingCategory
 import logic.usecase.SuggestClotheUseCase
 import ui.baseController.BaseUIController
 import ui.console.ConsoleIO
+import ui.utils.DisplayUtils.printBoxedMessage
+import ui.utils.DisplayUtils.printDashedLine
+import ui.utils.DisplayUtils.promptInput
 import ui.utils.tryToExecute
 
 class SuggestClothesUIController(
@@ -10,26 +14,41 @@ class SuggestClothesUIController(
     private val consoleIO: ConsoleIO
 ) : BaseUIController {
     override fun execute() {
-        consoleIO.println("Please Enter the start hour")
-        val startHour = consoleIO.readFromUser()
-        consoleIO.println("Please Enter the end hour")
-        val endHour = consoleIO.readFromUser()
-        consoleIO.println("Enter city name or leave empty to use your current location:")
-        val cityName = consoleIO.readFromUser().takeIf { it.isNotBlank() }
+        printBoxedMessage(WELCOME_MESSAGE)
+
+        val userChoice = promptUserInput(LOCATION_MESSAGE)
+
+        var cityName:String? = null
+        if(userChoice.lowercase() == "y") cityName = promptUserInput(COUNTRY_NAME_MESSAGE)
+
+        val startHour = promptUserInput(START_HOUR_MESSAGE)
+        val endHour = promptUserInput(END_HOUR_MESSAGE)
+
         tryToExecute(
-            action = {
-                suggestClotheUseCase.suggestClothes(startHour,endHour,cityName)
-            },
-            onSuccess = {
-                suggestion ->
-                consoleIO.println("Suggested clothing items for this time range are:")
-                suggestion.suggestion.forEach { item ->
-                    consoleIO.println("- $item")
-                }
-            },
-            onError = { throwable ->
-                consoleIO.println("An error occurred while fetching suggestions: ${throwable.message}")
-            }
+            action = { suggestClotheUseCase.suggestClothes(startHour,endHour,cityName) },
+            onSuccess = ::onGetSuggestClotheSuccess
         )
+    }
+
+    private fun onGetSuggestClotheSuccess(clothingCategory : ClothingCategory){
+        consoleIO.println(SUGGEST_MESSAGE)
+        clothingCategory.suggestion.forEach { item ->
+            consoleIO.println("- $item")
+        }
+    }
+
+    fun promptUserInput(message: String): String {
+        printDashedLine()
+        promptInput(message)
+        return consoleIO.readFromUser()
+    }
+    
+    companion object{
+        const val WELCOME_MESSAGE = "Welcome to Suggester App"
+        const val LOCATION_MESSAGE = "Your Location is Determined Using Your Device Ip By Default\n IF You Need Specific Country Name To Determine Your Location Enter (Y) "
+        const val COUNTRY_NAME_MESSAGE = "Great Now Enter Name Of Country :"
+        const val START_HOUR_MESSAGE = "Now We Need You Enter Start Hour And End Hour To Suggest Clothes Based On it\nEnter The Start Hour :"
+        const val END_HOUR_MESSAGE = "Enter The End Hour :"
+        const val SUGGEST_MESSAGE = "\nSuggested Clothing Items For This Time Range Are:"
     }
 }

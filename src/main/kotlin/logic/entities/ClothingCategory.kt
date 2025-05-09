@@ -5,3 +5,11 @@ data class ClothingCategory(
     val temperatureRange: IntRange,
     val suggestion: List<String>
 )
+enum class ClothingCategoryName {
+    FREEZING,
+    COLD,
+    COOL,
+    MILD,
+    WARM,
+    HOT
+}

@@ -8,7 +8,7 @@ data class WeatherResponse(
     @SerialName("elevation")
     val elevation: Double?,
     @SerialName("generationtime_ms")
-    val generationtimeMs: Double?,
+    val generationTimeMs: Double?,
     @SerialName("hourly")
     val dayWeather: DayWeather?,
     @SerialName("hourly_units")

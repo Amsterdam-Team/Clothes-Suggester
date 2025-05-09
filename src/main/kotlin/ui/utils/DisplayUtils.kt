@@ -1,8 +1,6 @@
 package ui.utils
 
 object DisplayUtils {
-    var printLine = ""
-
 
     // ANSI Colors
     private const val RESET = "\u001B[0m"
@@ -54,7 +52,6 @@ object DisplayUtils {
         println(RED + "✖ $message" + RESET)
     }
 
-    // ✅ NEW: Boxed Message
     fun printBoxedMessage(message: String, padding: Int = 2) {
         val lines = message.lines()
         val maxLineLength = lines.maxOf { it.length }
@@ -68,7 +65,6 @@ object DisplayUtils {
         println("╚" + "═".repeat(boxWidth - 2) + "╝" + RESET)
     }
 
-    // ✅ NEW: Side Comment
     fun printWithSideComment(label: String, comment: String, width: Int = 40) {
         val paddedLabel = label.padEnd(width)
         println("$paddedLabel ${CYAN}# $comment$RESET")
