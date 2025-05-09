@@ -11,6 +11,7 @@ import logic.repository.ILocationRepository
 import logic.repository.IWeatherRepository
 import kotlin.math.round
 import logic.exception.ClothesSuggestException.DataSourceException.EmptyDataException
+import java.util.*
 
 class SuggestClotheUseCase(
     private val weatherRepository: IWeatherRepository,
@@ -87,7 +88,7 @@ class SuggestClotheUseCase(
     private suspend fun getLocationByCityName(cityName: String):Location {
         if (!validateUserInput.isValidCityName(cityName))
             throw InvalidCityName
-        return locationRepository.getLocationByCityName(cityName)
+        return locationRepository.getLocationByCityName(cityName.lowercase(Locale.getDefault()))
 
 
     }
