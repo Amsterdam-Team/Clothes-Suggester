@@ -1,17 +1,25 @@
 package data.repository
 
-import data.local.dataSource.ILocationDataSource
 import logic.entities.Location
+import data.mapper.toModel
+import data.remote.dataSource.ILocationRemoteDataSource
+import logic.exception.ClothesSuggestException.DataSourceException.EmptyDataException
 import logic.repository.ILocationRepository
 
 class LocationRepositoryImp(
-    private val locationDataSource: ILocationDataSource,
+    private val locationRemoteDataSource: ILocationRemoteDataSource
 ) : ILocationRepository {
-    override fun setUserLocation(location: Location) {
-        locationDataSource.setUserLocation(location)
+
+
+    override suspend fun getCurrentLocationByIPAddress(): Location {
+        return locationRemoteDataSource.getCurrentLocationByIPAddress().toModel()
     }
 
-    override fun getUserLocation(): Location {
-        return locationDataSource.getUserLocation()
+    override suspend fun getLocationByCityName(cityName: String): Location {
+        return locationRemoteDataSource.getLocationByCityName(cityName).ifEmpty {
+            throw EmptyDataException
+        }[0].toModel()
     }
+
+
 }

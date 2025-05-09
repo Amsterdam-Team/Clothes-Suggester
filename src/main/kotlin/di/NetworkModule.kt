@@ -10,6 +10,9 @@ val networkModule = module {
     single<HttpClient> { HttpClient(CIO) }
 
     single<String>(qualifier = AppConstants.Qualifiers.WeatherApiBaseUrl) { AppConstants.WEATHER_API_BASE_URL }
+    single<String>(qualifier = AppConstants.Qualifiers.LocationByIpApiBaseUrl) { AppConstants.LOCATION_BY_IP_API_BASE_URL }
+    single<String>(qualifier = AppConstants.Qualifiers.LocationByCityApiBaseUrl) { AppConstants.LOCATION_BY_CITY_API_BASE_URL }
+
 
     single<Json> { Json { ignoreUnknownKeys = true; isLenient = true } }
 }
