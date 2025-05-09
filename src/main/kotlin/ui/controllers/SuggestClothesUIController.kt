@@ -6,6 +6,8 @@ import ui.baseController.BaseUIController
 import ui.console.ConsoleIO
 import ui.utils.DisplayUtils.printBoxedMessage
 import ui.utils.DisplayUtils.printDashedLine
+import ui.utils.DisplayUtils.printSubTitle
+import ui.utils.DisplayUtils.printSuccess
 import ui.utils.DisplayUtils.promptInput
 import ui.utils.tryToExecute
 
@@ -14,8 +16,6 @@ class SuggestClothesUIController(
     private val consoleIO: ConsoleIO
 ) : BaseUIController {
     override fun execute() {
-        printBoxedMessage(WELCOME_MESSAGE)
-
         val userChoice = promptUserInput(LOCATION_MESSAGE)
 
         var cityName:String? = null
@@ -31,9 +31,9 @@ class SuggestClothesUIController(
     }
 
     private fun onGetSuggestClotheSuccess(clothingCategory : ClothingCategory){
-        consoleIO.println(SUGGEST_MESSAGE)
+        printSubTitle(SUGGEST_MESSAGE)
         clothingCategory.suggestion.forEach { item ->
-            consoleIO.println("- $item")
+            printSuccess("- $item")
         }
     }
 
