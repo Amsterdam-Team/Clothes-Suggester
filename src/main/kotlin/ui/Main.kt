@@ -2,8 +2,6 @@ package ui
 
 import di.onDestroyApplication
 import di.onStartApplication
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import org.koin.java.KoinJavaComponent.getKoin
 import ui.controllers.GetCurrentWeatherUIController
 import ui.controllers.SuggestClothesUIController
