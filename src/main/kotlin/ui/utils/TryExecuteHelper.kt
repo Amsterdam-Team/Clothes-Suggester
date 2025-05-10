@@ -23,8 +23,8 @@ fun <T> tryToExecute(
     coroutineScope.launch(dispatcher + clothesSuggesterErrorHandler) {
         launch { loading(isLoading) }
 
-        val actionJop = async { action() }
-        onSuccess(actionJop.await())
+        val actionResult = async { action() }
+        onSuccess(actionResult.await())
 
         isLoading.value = false
     }
