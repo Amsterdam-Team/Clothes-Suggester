@@ -1,10 +1,11 @@
 package ui.utils
 
 import logic.exception.ClothesSuggestException
+import logic.exception.ClothesSuggestException.ValidationException.InvalidEndTimeFormat
 import logic.exception.ClothesSuggestException.ValidationException.InvalidCityName
 import logic.exception.ClothesSuggestException.DataSourceException.EmptyDataException
 import logic.exception.ClothesSuggestException.NetworkException.*
-import logic.exception.ClothesSuggestException.ValidationException.InvalidTimeFormat
+import logic.exception.ClothesSuggestException.ValidationException.InvalidStartTimeFormat
 
 
 fun String.printAsAFailState() {
@@ -14,9 +15,9 @@ fun String.printAsAFailState() {
 }
 
 fun getErrorMessageByThrowable(throwable: Throwable): String {
-
     return when (throwable) {
-        is InvalidTimeFormat -> "Please enter time in hours from 0 to 23 only"
+        is InvalidStartTimeFormat -> "Invalid start time. Please enter an hour between 0 and 23 (inclusive)."
+        is InvalidEndTimeFormat -> "Invalid end time. Please enter an hour between 0 and 23 (inclusive)."
         is InvalidCityName -> "Invalid City Name"
 
         is EmptyDataException -> "You must enter some data, this field cannot be empty"

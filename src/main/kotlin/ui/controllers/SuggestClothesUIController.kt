@@ -4,7 +4,6 @@ import logic.entities.ClothingCategory
 import logic.usecase.SuggestClotheUseCase
 import ui.baseController.BaseUIController
 import ui.console.ConsoleIO
-import ui.utils.DisplayUtils.printBoxedMessage
 import ui.utils.DisplayUtils.printDashedLine
 import ui.utils.DisplayUtils.printSubTitle
 import ui.utils.DisplayUtils.printSuccess
@@ -37,7 +36,7 @@ class SuggestClothesUIController(
         }
     }
 
-    fun promptUserInput(message: String): String {
+    private fun promptUserInput(message: String): String {
         printDashedLine()
         promptInput(message)
         return consoleIO.readFromUser()

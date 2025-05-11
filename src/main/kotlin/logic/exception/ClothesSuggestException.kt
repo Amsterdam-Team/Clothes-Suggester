@@ -3,7 +3,8 @@ package logic.exception
 
 sealed class ClothesSuggestException : Exception() {
     sealed class ValidationException : ClothesSuggestException() {
-        data object InvalidTimeFormat : ValidationException()
+        data object InvalidStartTimeFormat : ValidationException()
+        data object InvalidEndTimeFormat : ValidationException()
         data object InvalidCityName :ValidationException()
     }
 
