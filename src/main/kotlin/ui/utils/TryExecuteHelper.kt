@@ -1,37 +1,40 @@
 package ui.utils
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import org.koin.java.KoinJavaComponent.getKoin
 import ui.utils.DisplayUtils.printError
 
 fun <T> tryToExecute(
     action: suspend () -> T,
     onSuccess: (result: T) -> Unit,
     onError: (throwable: Throwable) -> Unit = {},
+    coroutineScope: CoroutineScope = getKoin().get(),
     dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
+    val isLoading = MutableStateFlow(true)
     val clothesSuggesterErrorHandler = CoroutineExceptionHandler { _, throwable ->
         printError(getErrorMessageByThrowable(throwable))
         onError(throwable)
+        isLoading.value = false
     }
 
-    GlobalScope.launch(dispatcher + clothesSuggesterErrorHandler) {
-        val actionJop = async { action() }
-        val loadingJob = launch { loading(true) }
+    coroutineScope.launch(dispatcher + clothesSuggesterErrorHandler) {
+        launch { loading(isLoading) }
 
-        actionJop.join()
-        onSuccess(actionJop.await())
+        val actionResult = async { action() }
+        onSuccess(actionResult.await())
 
-        loadingJob.cancel()
-
-
+        isLoading.value = false
     }
 }
 
-suspend fun loading(isLoading: Boolean) {
+suspend fun loading(isLoading: StateFlow<Boolean>) {
     var dotCount = 0
-    while (isLoading) {
+    while (isLoading.value) {
         val dots = ".".repeat(dotCount % 4)
-        print("\rLoading$dots   ")
+        print("\r$dots   ")
         delay(500)
         dotCount++
     }
