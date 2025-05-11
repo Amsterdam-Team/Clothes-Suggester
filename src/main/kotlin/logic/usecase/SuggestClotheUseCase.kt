@@ -4,7 +4,8 @@ import data.remote.response.DayWeather
 import kotlinx.datetime.LocalDateTime
 import logic.entities.ClothingCategory
 import logic.repository.IClothingSuggestionRepository
-import logic.entities.Location
+import logic.exception.ClothesSuggestException.ValidationException.InvalidStartTimeFormat
+import logic.exception.ClothesSuggestException.ValidationException.InvalidEndTimeFormat
 import logic.exception.ClothesSuggestException.ValidationException.InvalidCityName
 import logic.repository.ILocationRepository
 import logic.repository.IWeatherRepository
@@ -15,9 +16,8 @@ import java.util.*
 class SuggestClotheUseCase(
     private val weatherRepository: IWeatherRepository,
     private val locationRepository: ILocationRepository,
-    private val validateUserInput: ValidateUserInput,
     private val clothingSuggestionRepository: IClothingSuggestionRepository,
-    ) {
+) {
     suspend fun suggestClothes(
         startHourInput: String,
         endHourInput: String,
@@ -28,21 +28,36 @@ class SuggestClotheUseCase(
         return clothingSuggestionRepository.getClothingSuggestionsByTemperature(avgTemp.toFloat())
     }
 
-
-     suspend fun getWeatherAtSpecificPeriod(
+    private suspend fun getWeatherAtSpecificPeriod(
         startHourInput: String,
         endHourInput: String,
         cityName: String?
     ): Map<String, Double?> {
 
-        val userLocation = if (cityName == null) getLocationByIpAddress() else getLocationByCityName(cityName)
+        val userLocation =
+            if (cityName == null) locationRepository.getCurrentLocationByIPAddress()
+            else {
+                if (!isValidCityName(cityName)) throw InvalidCityName
+               locationRepository.getLocationByCityName(cityName.lowercase(Locale.getDefault()))
+            }
 
-        validateUserInput.isValidInput(startHourInput)
-        validateUserInput.isValidInput(endHourInput)
+        if (!isValidHour(startHourInput)) throw InvalidStartTimeFormat
+        if (!isValidHour(endHourInput)) throw InvalidEndTimeFormat
 
         val weatherReport = weatherRepository.getWeatherByLocation(userLocation).dayWeather
 
         return calculateAveragesWeatherData(startHourInput, endHourInput, weatherReport)
+    }
+
+
+    private fun isValidHour(hour: String): Boolean {
+        val number = hour.toIntOrNull()
+        return hour.isNotBlank() && number != null && number in 0..23
+    }
+
+
+    private fun isValidCityName(cityName: String): Boolean {
+        return (cityName.isNotBlank() && cityName.matches(Regex("^[a-zA-Z\\s]+$")))
     }
 
     private fun calculateAveragesWeatherData(
@@ -74,22 +89,13 @@ class SuggestClotheUseCase(
         )
     }
 
+
+
     private companion object {
         const val TEMPERATURE = "temperature"
         const val WIND_SPEED = "windSpeed"
         const val SHOWERS = "showers"
         const val CLOUD_COVER = "cloudCover"
-    }
-
-
-    private suspend fun getLocationByIpAddress() = locationRepository.getCurrentLocationByIPAddress()
-
-    private suspend fun getLocationByCityName(cityName: String):Location {
-        if (!validateUserInput.isValidCityName(cityName))
-            throw InvalidCityName
-        return locationRepository.getLocationByCityName(cityName.lowercase(Locale.getDefault()))
-
-
     }
 
 
